@@ -2,6 +2,7 @@
 
 - Labs:
 https://www.azurecitadel.com/network/vdc/rbac/
+https://github.com/MicrosoftLearning/AZ-104-MicrosoftAzureAdministrator/tree/master/Instructions/Labs
 
 ## PowerShell
 - Install PowerShell 
@@ -161,4 +162,35 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - Subscriptions are associated with users
 - Management group contains subscriptions or other MGMT groups
 - We can add users to Management Groups and then they will have proper subscriptions
+
+## Manage Azure Storage Accounts
+- Like S3 in AWS
+- Containers are like dirs/folders where we can upload files
+
+### Providing access
+- Access keys - 2x can be generated - can be changed if needed, permanent access, mostly for scripts
+- Shred Access Signature (SAS) - additional access key with limited timeline, can be defined how long its valid
+
+### Acces Tier
+- Cool storage - less paid for storage - 2x for access, min 30 days the file will be there
+- Hot storage - more for storage less for access
+- Archive - the most less for storage price but no immediate access to files  - paying min for 180 days
+
+### Lifcycle management
+- Automated movement between tiers for files
+
+### Object Replication
+- Blob Service -> Object Replication
+- Async copy to another account automatically
+
+## Azure Virtual Machines
+
+### Custom Scripts
+- 2 options:
+  - Extension - for Windows - we can add via Extension -> Custom Script Extension, after run Power Shell or other configs
+  - CloudInit - for Linux machines
+
+### Azure Bastion Server
+- Jumphost server
+- Create for specific subnet
 
