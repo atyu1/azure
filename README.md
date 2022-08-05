@@ -104,10 +104,12 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - username can be email only from associated domain
 - its possible to invite too by emails
 - Dynamic Groups - add users automatically to groups based on conditions
-- Guest Users = users which are part of another organization
+- Guest Users = users which are part of another organization - possible to invite
 
 - Password reset can be enabled per group - after users can do it themself 
 - Password reset can use email, phone num, Microsoft App Code, Office Phone, security questions 
+  - Auth info is valid for 180 days by default
+- Password reset can be enabled for selected users or all or none (no group option)
 - Assign roles or applications directly to group
 - Groups can have:
  - Owners - have permissions + manage members
@@ -119,16 +121,17 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
   - rule based - create rule which dynamically assign users to groups
   - external authority - access come via external source like on prem or Saas
 
+- Deleted remains for 30 days as deleted - can be reverted for accidental delete
+
+### Bulk Operations:
+- We can create, invite, delete & download users
+- It can be through one bulk csv file which is uploaded
 
 ### Device Management
 - Device can be added - external registration
 - After permission can be specified
 - We can limit only users from registered devices
 - In Windows - there is App: Connect -> this can register to Azure -> enter user/pass and it will be done
-
-### Bulk Operations:
-- We can create, invite, delete & download users
-- It can be through one bulk csv file which is uploaded
 
 ### RBAC
 - Used for Authorization
