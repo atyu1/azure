@@ -58,8 +58,17 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 1. Activate the license
 2. Assign users which can use it
 
+### Terminology
+`Domain` - area of network orginzs by single auth db
+`Domain Controller` - server that do authentication and authorization
+`Domain Computer` - registered device to the auth db ==> AD Object
+`AD Object` - an elemnt of AD like: User or Group or Printer or Computer 
+`Group Policy Object` - virtual collection of policies for AD objects
+`Organization Unit` - subidivion/subfolder of and AD - place inside objectets or other OU
+`Directory Service` - provides method of storing directory data and making it availale
+
 ### Managing multi-tenant user
-- tenant is represented by unique `domain` - like test.com
+- tenant is represented by unique `domain` - like test.com 
 - if domain is not specified we use: test.microsoft.com
 - every account is part of at least 1 tenant
 - tenant must have subscription associated in order to be able create resources
@@ -72,11 +81,18 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
  2. Pay as you go
  3. Enterprise
 
-### Azure AD join
+### Azure AD connect
 - Connect on prem to AD in Cloud (Azure AD)
 - We can use cloud-only to authenticate to Windows Machines on Prem
 - When you don't have on prem AD
 - When you dont want to put some users to on prem AD
+- Add support for SSO
+- Features:
+  - Password hash sync - sync hash for passwords with on prem
+  - Pass-through - allow to use same user/pass on prem and on cloud too
+  - Federation - hybrid environment using on prem AD FS infra
+  - Synchronization - auto sync between om prem and cloud for users/groups/...
+  - Health Monitoring - provides central monitoring in azure portal
 
 ### Administrative Units
 - Used in large org. and divide them to multiple groups (administrative units)
@@ -88,9 +104,21 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - username can be email only from associated domain
 - its possible to invite too by emails
 - Dynamic Groups - add users automatically to groups based on conditions
+- Guest Users = users which are part of another organization
 
 - Password reset can be enabled per group - after users can do it themself 
 - Password reset can use email, phone num, Microsoft App Code, Office Phone, security questions 
+- Assign roles or applications directly to group
+- Groups can have:
+ - Owners - have permissions + manage members
+ - Member - have permissions
+
+- Assign access rights to users
+  - direct assignements - assign manually to users
+  - group assignements - assign permissions via group to users
+  - rule based - create rule which dynamically assign users to groups
+  - external authority - access come via external source like on prem or Saas
+
 
 ### Device Management
 - Device can be added - external registration
