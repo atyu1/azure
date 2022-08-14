@@ -81,7 +81,7 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
  2. Pay as you go
  3. Enterprise
 
-### Azure AD connect
+### Azure AD connect/join
 - Connect on prem to AD in Cloud (Azure AD)
 - We can use cloud-only to authenticate to Windows Machines on Prem
 - When you don't have on prem AD
@@ -128,18 +128,107 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - It can be through one bulk csv file which is uploaded
 
 ### Device Management
+- Manage physical devices - like phones, pc, printers
+- See what is connected
 - Device can be added - external registration
 - After permission can be specified
 - We can limit only users from registered devices
 - In Windows - there is App: Connect -> this can register to Azure -> enter user/pass and it will be done
+- We can utilize BYOD and see if device are secure enough
+- 3 ways:
+ 1. Azure AD registered 
+  = personal devices 
+  = signed with Microsoft account or local account 
+  = targeting personal accounts 
+  = no org linked, BYOD or mobile dev
+  = Android, Mac, IIOS, Win 10
+  = Sign in: end user, password, win hello, PIN, biometrics or pattern on phone
+  = Device Management by intune or App Management
+  = SSO
+ 2. Azure AD joined 
+  = owned by org and signed with Azure AD belonging to org
+  = exists only in cloud
+  = suitable for cloud only and hybrid (private cloud) org
+  = Device sign in: Password, Win Hello for Business, FIDO2.0
+  = Device management by intune or Microsoft Endpoint Configuration Managerß
+  = Supports SSO to both cloud and on prem Dev
+  = Conditional Access through MDM enrollment and compliance evaluation 
+  = Entrerpise state roaming
+  = Azure AD Domain services belonging to that org, they exists in cloud or on prem
+ 3, Hybrid Azure AD joined devices
+  = Suitable for org, with local AD and wanna mix them with Azure
+  = Devices owned by organization
+  = Password loging or Windows Hello for business
+  = Use windows autopilot = automated device provisioning for new windows devices
+  = Windows autopilot = if provisioned, devices can be maanged by: Intune, Windows Update for Business, Microsoft endpoint config manager
+
+### Windows Hello
+- Windows 10 service to login via alternate way like, fingerprint, iris scan or facial recognition
+
+### Azure MDM and MAM
+- Mobile Device Management (MDM) - control the entire device, wipe data and so
+- Mobile Application Management (MAM) - publish, push and configure, secure, monitor and update mobile apps 
+- Both are part of: Microsoft Intune => part of Premium 2
+- Intune is part of Microsoft Endpoint Manager == part of ===> Microsoft Enterprise Mobility + Security (EMS)
+- EMS - is inteligent mobility management and security platform. Protect and Seure your org and empowers flexibility
+- EMS - multiple services are part of it like: Azure AD or Intune and more
+
+### Regions
+- Classic, closer to customer, data is located in same place, some services are avialable only on some, some of them are global services 
+- Regional pairs are siblings for specific regions to create better HA
+
+### Microsoft Authenticator App
+- like Duo - used for 2 factor auth + passwordless or password autofill
+
+### Roles
+- 3 types of roles exists (origin): (next sections)
+ = Classic Admin - original role (used rarely)
+ = Azure roles - RBAC on top of resource management
+ = Azure AD roles - used to manage Azure AD resources in a directory
+
+### Classic Administrators
+- 3 types of roles:
+ = Account Admin - billing owner, no access to azure portal
+ = Service Admin - same access of user asssigned the owner role at subscriptions scope. Full portal access
+ = Co-Admin - same access as user who assigned the owner
 
 ### RBAC
 - Used for Authorization
+ - 2 types: builtin and custom
 - Highest Role: Global Administrator
 - We can greant access to recources or resource groups
+- Roles can be assigned to users, user groups, service principle
+- Role assignements consists of:
+ = security principal - user, group or security principal (identity of applications or services)
+ = role definition - collection of permissios - specify if operation can read, write or delete
+ = scope - set of resources (mgmt group, subscription, resource groups or resources) - which it applies to
+- Deny Assignement - deny some specific actions even if roles allow it
 - Custom roles can be created we need Premium Level plan
 - Custom can specify like: Read and Update (don't delete) - add permsissions/actions
 - We can include or exclude permissions (all except selected)
+
+### Azure AD Roles
+- used to manage Azure AD resources in dir like
+  = create or edit users
+  = reset user passwords
+  = manage domains
+  = manage licences
+
+- Built in roles:
+ = Global Admin - Full access to everything
+ = User admin - full access to create and manage users
+ = Billing admin - make purchase, manage subscriptions and support tickets
+
+- Custom roles can be created by having Azure AD Premium P1 or P2
+
+### Azure Policies vs Azure Roles (RBAC)
+- Policies - ensure compliance of resources - evaluates - does not restrict just review and alarm
+- Roles - control access and limit what we can do - restrict access and permissions
+
+### Azure AD Resource vs Azure Roles (RBAC)
+- AD Roles - control access to AD resouces (like users, groups, billing, licensing...)
+- RBAC - control access to Azure resources (virtual machines, databases, storage, networking, ...)
+- By default global admin does not have acces to Azure resources
 
 ### Subscriptions
 - Identity = name used for auth
