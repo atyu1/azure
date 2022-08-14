@@ -230,11 +230,23 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - RBAC - control access to Azure resources (virtual machines, databases, storage, networking, ...)
 - By default global admin does not have acces to Azure resources
 
+### Azure Resource Manager
+- Not a single services but multiple services
+- Allow to create, update and delete resources
+- Its a middleware between requester (CLI, API, SDK) and actual resources <--> Communicates with Authentication service
+- Scope is a logical grouping of resources
+- Sopes: Management Groups -> Subscriptions -> Resource Groups and Actual Resources
+
+### Management Groups
+- Contains another layer of managerment groups or subsciptions
+- Used to group subscriptions
+- Apply policies there
+
 ### Subscriptions
 - Identity = name used for auth
 - Account = user or app - used for authentication, Identity + More info
 - Tenant = orgnaization - represented by domain name
-- Subscription is billing agreement (Free, pay as you go)
+- Subscription is billing agreement (Free, pay as you go, azure for students)
 - Resource is any entity managed by account - VM, WebApp, Storage Account, anything created
 - Resource groups - Organize resources to group 
 - All resources can belong to 1 resource group only
@@ -274,6 +286,11 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 4. Assign Policy
 ``` New-AzPolicyAssignement -Name "Rulez" -DisplayName "Rulez" -Scope $rg.ResourceId -PolicyDefinition $policy ```
 
+### Resources Providers
+- Allow to use specific resources
+- Register to them (enable them) like Kubernetes and after you can use it
+- Enable under subscriptions
+
 ### Relationship between User Subscritpion Tenant
 - User - lowest level
 - Tenant - exist by defualt (contains users)
@@ -282,6 +299,7 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - Subscriptions are associated with users
 - Management group contains subscriptions or other MGMT groups
 - We can add users to Management Groups and then they will have proper subscriptions
+
 
 ## Manage Azure Storage Accounts
 - Like S3 in AWS
