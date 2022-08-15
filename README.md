@@ -361,21 +361,127 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
  = Azure Queues - Messaging storage
  = Azure Disks - Bock level storage for Azure VMs
 
+### Replication and Data Redundancy
+- Defined per storage account
+- Storing multiple copies of data for data availability
+- higher redundancy means higher cost of replication
+- Primary Region Redundancy:
+ 1. Locally Redundant Storage (LRS) - synchronous copy of data, 11x 9, cheapest
+ 2. Zone-Redundant storga (ZRS) - data copied synchronous accross 3x AZ in 1x regio, 12x 9 durability
+ = Data replicated 3 times in same region
+- Secondary Region Redundancy
+ 1. Geo Redundant Storage (GRS) - synchronous copy inside primary and asynchronous on secondary. 16x 9s durability
+ 2. Geo-Zone Redundant Storage (GZRS) - synchronous copy inside primary 3x AZ and asynchronous on secondary. 16x 9s durability
+ = Data center loss and disaster recovery usage
+ = Secondary regions is based on region pair and its not avaialble for read or write
+- Secondary Region - Only Read Access
+ 1. Read Access Geo Redundant Storage (RA-GRS) - synchronous copy in regions and between, 16x 9 durability
+ 2. Read Access Geo Zone Redundant Storage (RA-GZRS)- synchronous in regions between 3x AZ and between regions, 16x 9 durability
+ = Only option to use synchronous replication
+ = Allow to have read access from secondary region
+
 ### Providing access
 - Access keys - 2x can be generated - can be changed if needed, permanent access, mostly for scripts
 - Shred Access Signature (SAS) - additional access key with limited timeline, can be defined how long its valid
 
-### Acces Tier
+### Azure Blob
+- Object store to store massive amounts of data unstructured
+- Composed:
+ = Storage Account - unique namespace for data (like bucket in S3)
+ = Containers - similar to folders
+ = Blobs - data chuncked and stored
+
+- Blob Storage types:
+ = Block blobs - store text and binary data, data can be changed individualy,  store up to 4.75TiB
+ = Append Blobs - optimized for append operations, ideal for logging
+ = Page Blobs - store random access files - up to 8TiB 
+
+- Data can be moved to storage by:
+ = Power Shell - AzCopy
+ = Azure Storage Data Movement Libbrate - SDK, .net library
+ = Azure Data Factory - ETL service
+ = BLobfuse - Virtual filesystem driver, access data through linux FS
+ = Azure Data Box - dedicated device to transport data (Snow family in AWS)
+ = Azure Import/Export service - service to ship physical disks to Azure
+
+### Performance Tiers for Blobs
+- Mostly 2 kind exists:
+  = Standard - use HDD, various performance (based on hot, cool and archive), used for backup and media content
+  = Premium - leverage SSD for High thorughput and low latency, used for analytics,AI & ML, data transformation
+- Define mostly IOPS
+
+### Access Tiers for Blobs
+- Applies to blobs
+- 3 types
+ = Cool - data accessed less then 30 days, lower cost, higher access cost, short backups and disaster recovery, old media content
+ = Hot - data accessed frequently, highest cost, regular used data
+ = Archive - data accessed and stored for 180 days, lowest cost for data but highest access cost, long term backup, archive datasets, origin raw data, compliance data
+
+- by default using Storage Account tier if not explicit
+- upload blob to tier of choiuce
+- `rehydrating blob` - means move data out of archive - takes hours
+- `lifecycle management` - rules to move data automatically between tiers
+
+### Acces Tier Blobs
 - Cool storage - less paid for storage - 2x for access, min 30 days the file will be there
 - Hot storage - more for storage less for access
 - Archive - the most less for storage price but no immediate access to files  - paying min for 180 days
 
-### Lifcycle management
-- Automated movement between tiers for files
+### Azure Files
+- Fully managed file share in cloud
+- Allow Samba and NFS too and VMs can be mixed
+- Used to replace local NAS
+- Lift and shift your premise storage to the cloud == means no data architecture change is required, import VMs to Azure
+- Classic - App and data is moved to cloud
+- Hybrid - data is moved to cloud, App stays on premise
+- Used to share data quickly between VMs, diagnostics or dev/test/debug for developers
+- Can be used for containers as persistent storage
+- Extremly resilient and durable
 
-### Object Replication
-- Blob Service -> Object Replication
-- Async copy to another account automatically
+- Backups are snapshot based, read only and incremental, max 200 snapshots per share and can be kept for 10year
+- Soft Deleet - like a lock, allow to prevent accidental deletion
+- Advanced Threat Protection - anomaly based detection for security
+- Accessible from inside or outside of AWS Account from anywhere via `public endpoint`
+- `Encryption` - data at rest is encrypted by SSE
+- Data in transit are encrypted by TLS
+
+### Acces Tier for Files
+- 3 types:
+ = Premium - SSD, single digit milisecond, high IOPS
+ = Transaction optmizied - same as standard, HDD, transaction heavy workload and don't need super latency
+ = Hot - General purpose like team shares or Azure File Sync
+ = Cool - Stored on HDD for cost effiction storage, online archive
+
+### Azure File Sync
+- Cache files from Onpremise or cloud to allow communication between them
+- Supports NFS, SMB, FTPs
+- Multiple caches are supported accross the world
+
+### Azure Storage Explorer
+- Application for Windows, linux and mac
+- Used to make easier to work with blob, create folders, see data and so
+
+### AZCopy
+- CLI utility (dedicated package for various systems)
+- use to copy blobs or files to or from storage account
+- Using Azure AD or Shared Access Signature (SAS) to gain access, login via azcopy login (popup window to authenticate)
+- Example: azcopy copy '/root/text.txt' '<endpoint url for blob>'
+
+### Aure Import/Export Service
+- Used to move large amount of data to Azure
+- You can use own disk or microsoft provides disks (5 SSD disks with a 40TB)
+- Using bitlocker to encrypt files
+- Gnerate journal drivers
+- Using WAImportExport tool to copy v1 = into blob storage, v2 = into file storage
+
+### Azure Shared Access Signature SAS
+- is URI that grants restristred right to access resource on storage account
+- temporary access
+- Same is premium URLs in AWS
+- Types:
+ = Account Level SAS - access resource in one or more storage services
+ = Service Level SAS - single storage account by storage account key
+ = Used Delegate SAS - using Azure AD credentials to acces, limited to blobs and containers, best method
 
 ## Azure Virtual Machines
 
