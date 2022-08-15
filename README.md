@@ -185,12 +185,16 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
  = Classic Admin - original role (used rarely)
  = Azure roles - RBAC on top of resource management
  = Azure AD roles - used to manage Azure AD resources in a directory
+- Global Admin and User Access admin - are in both groups and can control both sections
 
 ### Classic Administrators
+- Defined at subscription level, used in early days
+- just a susbcription scope - management groups does not exists here
+- don't support custom roles
 - 3 types of roles:
  = Account Admin - billing owner, no access to azure portal
  = Service Admin - same access of user asssigned the owner role at subscriptions scope. Full portal access
- = Co-Admin - same access as user who assigned the owner
+ = Co-Admin - same access as user who assigned the owner - cannot delegate access
 
 ### RBAC
 - Used for Authorization
@@ -220,6 +224,26 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
  = Billing admin - make purchase, manage subscriptions and support tickets
 
 - Custom roles can be created by having Azure AD Premium P1 or P2
+
+### Azure Policy
+- Limit users to not create expensive resources
+- Define policies to enforce company standards and SLAs
+- It can also limit Resource Types, versions, locations, default tagging, VM SKUs (Flavor)
+- In GUI, its 'Policy"
+- Scope - for full subscription or Resource Groups under Subscription
+- Policies can be applied on Resource Groups level to for example ensure policicies like have tag or encrypted disk
+- Policy can be associated with powershell too, example:
+1. Save Policy Def
+ ```$policy = Get-AzPolicyDefinition | Where-Object { $_.Properties.DisplayName -eq "Policy name" }```
+
+2. Create RG
+ ``` New-AzResourceGroup -Name "test-rg" -Location "East EU" ```
+
+3. Save it to variable
+```$rg = Get-AzResourceGroup -Name "test-rg" -Location "East EU" ```
+
+4. Assign Policy
+``` New-AzPolicyAssignement -Name "Rulez" -DisplayName "Rulez" -Scope $rg.ResourceId -PolicyDefinition $policy ```
 
 ### Azure Policies vs Azure Roles (RBAC)
 - Policies - ensure compliance of resources - evaluates - does not restrict just review and alarm
@@ -255,36 +279,19 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - Susbscription can have access control - various roles can be chosed - cores are Owner/Contributor/Reader
 - Contributor cannot assign other users to subscriptions (owner can)
 
-- `Cost Management and Billing`
+### Cost Management and Billing
 - It can do cost analysis and predict what we will pay
 - See invoices and billings
 
-- `Resource [Group] Locks`
-- We can lock so users who don't have permission cannot create resources
+### Resource [Group] Locks
+- Lock overwrites RBAC roles and does not allow to do even if we have rigts
+- Used in critical resources to avoid accidental deletion or modification
 - Users with permissions can delete locks
 - Lock types:
- - Read-Only - don't delete/create/update any resource
+ - Read-Only - don't delete/create/update any resource also move is restricted
  - Delete - just don't delete resource
-
-- `Azure Policy`
-- Limit users to not create expensive resources
-- Define policies to enforce company standards and SLAs
-- It can also limit Resource Types, versions, locations, default tagging, VM SKUs (Flavor)
-- In GUI, its 'Policy"
-- Scope - for full subscription or Resource Groups under Subscription
-- Policies can be applied on Resource Groups level to for example ensure policicies like have tag or encrypted disk
-- Policy can be associated with powershell too, example:
-1. Save Policy Def
- ```$policy = Get-AzPolicyDefinition | Where-Object { $_.Properties.DisplayName -eq "Policy name" }```
-
-2. Create RG
- ``` New-AzResourceGroup -Name "test-rg" -Location "East EU" ```
-
-3. Save it to variable
-```$rg = Get-AzResourceGroup -Name "test-rg" -Location "East EU" ```
-
-4. Assign Policy
-``` New-AzPolicyAssignement -Name "Rulez" -DisplayName "Rulez" -Scope $rg.ResourceId -PolicyDefinition $policy ```
+- Lower layers (subscription, resource groups, ...) - inherites the lock
+- Locks does not affect permission in data layer
 
 ### Resources Providers
 - Allow to use specific resources
@@ -300,10 +307,59 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - Management group contains subscriptions or other MGMT groups
 - We can add users to Management Groups and then they will have proper subscriptions
 
+### Azure Blueprints
+- Quick creation of governed subscriptions
+- Declarative wat to orchestrate  delpoyments of various resource templates and other artifacts: Role Assignement, Policy Assignemetn, ARM templates, RG
+- Differnece between ARM Templates is that ARM is local file and no direct connection of template to azure
+- BLueprints creates definitions in cloud what should be deployued and assignemnent, what was deployed, can upgrade several subsciptions
+- Blueprints supports imrpoved tracking and auditing deployments (follow up after deploy)
+
+### ARM Templates
+- IaC
+- Azure resources defined in JSON files
+- Declarative - exactly defined resources what to deploy
+- create, edit or delete big deployments in minutes
+- reduce configuration mistakes
+- Modular and Extensible (with powershell or bash scripts)
+- Testable
+- Preview - see changes before apply
+- Tracked deployment
+- Used in CI/CD
+- Exportable code
+- If you deploy and fails, not automatic clean for resources created already
+- no rollback -deleting template is not deleting htem
+- Delete unwanted resource manually via deployments screen
+
+- Example:
+```
+{
+  "$schema":<schema url>, # tell what schema to use and what fields to expect
+  "contentVrsion": "1.0", # Custom definition of template version, any string
+  "apiProfile": "",  # used to avoid specify api version for each resource in template
+  "parameters": {},  # custom values to pass with your templates, supports default value
+  "variables": {},  # transform variables and resource properties using function expressions
+  "functions": [],  # user defined functions
+  "resources": [],  # azure resources used are specified here like VM, Storage, ...
+  "outputs":{}      # values returned after deployment
+}
+```
 
 ## Manage Azure Storage Accounts
 - Like S3 in AWS
+- Types of storages:
+  = General Purpose v1 (legacy)
+  = General Purpose v2 
+  = Blob Storage (legacy) - object storage
+  = Block Blob Storage
+  = File Storage - file system based
 - Containers are like dirs/folders where we can upload files
+
+- 5 core storage services:
+ = Azure Blob - object store
+ = Azure Files - file strorage, like NFS/SAMBA
+ = Azure Tables - NoSQL Store - schemaless structured data
+ = Azure Queues - Messaging storage
+ = Azure Disks - Bock level storage for Azure VMs
 
 ### Providing access
 - Access keys - 2x can be generated - can be changed if needed, permanent access, mostly for scripts
