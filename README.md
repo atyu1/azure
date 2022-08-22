@@ -484,13 +484,53 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
  = Used Delegate SAS - using Azure AD credentials to acces, limited to blobs and containers, best method
 
 ## Azure Virtual Machines
+- the size of VM is determined by the image
+- Current limitation: may change - 20 VMs per region
+- Azure Marketplace - place to find any kind of OS and images
+- There are many images which are optimized for Azure
+- VMs are gouped mostly to:
+ = Types = General Purpose and Compute Optimized, ... = Balanced CPU to memory ratio, testing
+ = Sizes = B,Dsv3, ... (Called SKU)
+
+- Virtualization is based on Hyper-V
+- 2 generations are possible:
+ - Gen1 = support most gues OS
+ - Gen2 = support most 64bit version of Windows, linux, freebsd
+
+ Gen-1 = BIOS based
+ Gen-2 = UEFI based boot (secure boot, larger boot volumes)
+
+ - Hyper-V VM are using VHD or VHDX format for disks
+
+- Login to nodes via SSH,RDP or Bastion server
+
+### Azure Bastion Server
+- Jumphost server
+- Create for specific subnet
+- Its able to connect to VMs via Browser and the Azure Portal
+- Provides seamless RDP and SSH access
+
+### Azure Mobile App
+- Able to monitor the state of VMs, see alerts and so
+- Possible to monitor more like WebApps, SQL DB, ...
 
 ### Custom Scripts
 - 2 options:
   - Extension - for Windows - we can add via Extension -> Custom Script Extension, after run Power Shell or other configs
   - CloudInit - for Linux machines
 
-### Azure Bastion Server
-- Jumphost server
-- Create for specific subnet
+### Update Management
+- Manage OS updates automatically from Azure Portal
+- Can be used for Azure VMs, on Prem or other cloud VMs
+- Require a client to be installd MMA (Microsoft Monitoring Agent)
+- Every Windows machine is monitored and scanned every 12h
+- Every Linux machine is scanned every 3h
+- It takes 30min - 6h to show updated data in dashboard 
+- Azure Automation service can leverage it
 
+### Azure Disks
+- Block level storage volumes for VMs
+- 5x9's durability
+- Creates 3 copies of data
+- max 50000 disks per region
+- max 1000 VMs in VMSS
