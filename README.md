@@ -534,3 +534,132 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - Creates 3 copies of data
 - max 50000 disks per region
 - max 1000 VMs in VMSS
+- 2 types of encryption:
+ = 1. SSE - server side encryption - enabled by default, temporary disks are not encrypted unless enabled in OS
+   = Can be platfrom managed keys - Azure manage the keys or Customer managed keys  
+ = 2. Azure Disk Encryption - Allow to encrypt OS and Data disks used bya IaaaS - done by bitlocker in windows or DM-Crypt in linux
+
+- Disk roles:
+ = 1. OS Disk - operating disks is located here, conatains boot volume (C:/ drive)
+ = 2. Temporary disk - temporary data which is not managed - data is not persistent in MW but reboot persist, swap disk can be this too (D:/ drive)
+ = 3. Data disk - additonal disks to store main data - iSCSI disks, multiple supported
+
+ ### Azure disk snapshots
+ - Managed Disk Snapshot = Read Only crash consistent full copy of a managed disk - stored as standard managed disk
+  = Point in time recovery
+  = independent from main disk
+  = Billed based on size
+
+- Managed Custom Image 
+ = Image copy 
+ = Keeps all managed disks (VM + data disks)
+
+### Azure Disk types
+- Ultra Disks = havies workloads, up to 160000 IOS and 2000 MB throughput, used for SAP HANA and top tier DBs, used only as data disk 
+- Premium SSD = High performance IO intensive workaloads, misssion critical workloads, Guanteed IOPS, 20000 IOPS
+- Standard SSD = consistent, lower iops, suitable for webservers
+- Standard HDD = low cost, good avaiability but latency can be higher
+
+### Azure Bursting
+- boost the IOPS and MB/s performance for a period of time on both VMs and disks
+- allow to handle spike traffics
+- Burstable VMs are: Lsv2, Ds3, Esv3
+- Specific disks allow bursting like: Premium SSD - P20 adnd smaller
+
+### Application Gateway
+- operates at application level and doing load balancing
+- L7 at OSI layer
+- Routing based on path
+- Supports to attach WAF
+- 3 things to setup:
+ = Frontend - private or public IP (or both) 
+ = Routing rules -  rules and listenners based on what to forward 
+ = Backend pools - collection of resources where to send traffic (VMs, VMSS, IP addresses, ...)
+
+### Routing rules
+- Listenners - on port and IP address
+- 2 types of listenners:
+ = 1. Basic - forward all requests to any domain to backend pools
+ = 2. Multisite - forward to multiple and different pools on host header and hostn name
+
+- Backend targets - where the route should go also specifies bakcend port and protocol (HTTP,HTTPS)
+- 2 types: 
+ = 1. Backend Pools 
+ = 2. Redirect
+- More option possible for HTTP header (cokies and so)
+
+- Supports connection draining to wait some time before not sending more 
+- Cookie affinity - sticky sessions
+- Request timeouts - if no feedback it will mark dead, inn secons
+- Supports to override bakend
+
+### Azure Scale Sets
+- Like ASG in AWS
+- Automatically increase or decrease VM capicity (scale out or scale in)
+- Create scalling policies
+- Replace unhealhu instances
+
+- Load balancer and scale sets are good integration for production traffic
+- Load balancer can send probe sets to check health of VMs
+- Azure application GW or Load balancers both supports VMSS
+
+- Scaling policy - define when to do scale in or out
+ = Supports to use CPU% threshlod, number of VMs to add and so
+ = Rules can use more robust metric - Network In/Out, Disk Reads, CPU credits, CPU %
+ = Out of simple metrics, can be collected more but we need for more use App Insight (application side  metrics, Page load, ...) or Azure Diagnostics Extension (VM detailed host metrics)
+
+- Scale-In Policy - define which VM to delete after scale in:
+ = Default - Highest Instance ID (Balance accross AZ and Faulty Domains)
+ = Newest VM
+ = Oldest VM
+
+- Update Policy - when VMs are having update, how to perform:
+ = Automatic - Immediately with random order
+ = Manual
+ = Rolling - group of VMs are updated at the same time
+
+- Health monitoring - Decide if VMs are healhy or not
+- 2 modes:
+ = 1. Application Health Extension - HTTP/HTTS request check for status 200 (protocl, port and path
+ = 2. Load Balancer Probe - Allow to check TCP,UDP or HTTP
+- Automatic repair policy - if instance is unhealhty if to keep or replace
+
+### Azure App Services
+- Deploy and Manage Web Application withou worry about infra
+- PaaS
+- Used for hosting Web Apps, Res APIs and mobile backends
+- Choose any programming language
+- It creates automatically the service behind and manage them
+- Easy integration of DevOps, DockerHub integeration, Github, package manager
+- Pay plans:
+ - Free Tiers - 1GB space, max 10 Apps on 1 instance, NO SLA guaranteed, 60min/day
+ - Shared Tier - free, shared (no linux support), 100 Apps, NO Sla, Compute quota 240min/day
+ - Dedicated Tier - Basic, Standard, Premium, PremiumV2, V3 = Unlimited Apps, some SLAs, load balancing and VMSS, SLA of 99.95% 
+ - Isolated Tier - dedicated vNET, full network and Compute isolation, SLA 99.95% (ASE)
+
+- During creation use a custom name - this will be the domain name
+- Runtime environments - which programming language and libraries are using
+- Choos runtime and corresponding version:
+ = .Net/.Net core
+ = Java 
+ = Ruby
+ = Node.js
+ = Python
+ = PHP
+
+- Custom Containers are supported like docker -> push to registry and deploy an App service
+- Custom containers are good for 3rd party or unsupported langauges
+- Deployments slots are good for staging and QA env = different environment
+- Supports swap environments where create new production quickly after testing is posible
+
+- App Service Environments (ASE)- higher level, more functions and supports bigger deployment demands 
+- Azure App Deployment - Options to push changes and updates from local env to remote env:
+ = Using Package, ZIP/WR, Deploy via FTP, Cloudbox, Dropbox, OneDrive (all 3x before are using sync the folders automatically), ...
+
+- WebJobs - free, allow to run a custom program and script in same instance for web app or API service or mobile APP - no linux support
+ = Continous Run - like a service or deamon mode
+ = Triggered - runs when requested - manual or scheduled (cron job)
+
+- Supports 2 modes where to run:
+ = single instance
+ = multi instance
