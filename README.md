@@ -663,3 +663,82 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - Supports 2 modes where to run:
  = single instance
  = multi instance
+
+ ## Azure Monitor
+ - Collect, analyze and act for telemetry data
+ - Dashboards, alerts, reports, ...
+ - Various sources of Data:
+  = Applications
+  = Operating System
+  = Azure Resources
+  = Azure Subsciptions
+  = Azure Tenant
+  = Custom Sources
+
+- We save data to Data Stores:
+ = Logs - consolidated form of logs for perforamnce via
+ = Metrics - time series DB
+- We can use custom functions to do the stuff with Data Stores
+- We can use Insight, Visualization tools, Smart Analysis tools, Automatic Actions (alerts, autoscale), Intgrations (to other or custom services)
+
+### Azure Data Sources
+- `Application Code`
+ = Inspect data from code itself
+ = Performance traces, logs, telemetry
+ = Install instrumentation package to code -> for data collections
+ = Install Availibality ests -> to see repsonsivness of the app
+ = Saving to 3x Data stores - Metrics, Logs and Storage
+
+- `OS Monitor`
+ = Use Diagnostics Extension to collect metrics
+ = Log Analytics Agent - to collect logs
+ = Dependency Agent - data about process running on VM and collect external dependencies
+ = This can use Event Hub to forwar the events
+
+- `Azure Resources`
+ = Resource logs -> insight into the operation for Azure resource and created automatically
+ = Metrics are used to see the performance
+ = Azure storage is used for archiving
+
+- `Azure Subscription`
+ = Monitors Azure Service Health if they are running#
+ = Monitors Azure AD
+
+- `Azure Tenant`
+ = Monitors telemetry tenant wide services, like Azure AD
+
+- `Custom Sources`
+ = Using Azure Monitor API via to push the Metrics and Logs to Stores
+
+### Log Analytics Workspace
+- Unique environment for Azure to Monitor logs data
+- Each workspace has own data repository, config, sources and solutions
+- Data explorer is using Kusto Query Language (KQL)
+- Similar language to SQL to query the logs data, it can be used in various services
+- commands start with. E.g. .create table, .show tables
+
+### Metrics Explorer
+- Sub service of Azure Monitor
+- Helps to visualize data, crate charts to analyze spikes and trends
+- Using metrics DB
+
+### Azure Alerts
+- Notification services
+- 3 services:
+ = Metrics Alerts
+ = Log Alerts
+ = Activity Alerts
+
+### Azure Workbooks
+- flexible canvas for data analysis - rich visual reports
+- Story - about performance and avialability of application and services
+
+### Application Insight
+- Application Performance and Managemtn service 
+- Used for application performance and availability of software apps
+- helps to diagnose complex issues
+- using automatic anomaly detection
+- powerful analytics tool
+- used to continuously improve performance and usability
+- Devops friendly
+- Multiples apps for various Prog. languages
