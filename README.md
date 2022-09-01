@@ -742,3 +742,34 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - used to continuously improve performance and usability
 - Devops friendly
 - Multiples apps for various Prog. languages
+
+## Azure Backup Services
+- No dedicated service to backup all
+- Its per service feature
+- Supports: VM, Files, On Prem, SQL Server, SAP HANNA, DBs
+
+- Azure backup policy can help to schedule and define how often do backup and keep it
+- 
+
+### Azure Recovery Service Vault
+- Vaults - is a storage entity that house data and recovery points 
+- Data is copied there, configs, info about workloads, VMs, servers
+- Backup data for various servers: IaaS VMs or Azure SQL DBs
+- Sexure and enhanced capabilities
+- Azure RBAC
+- Soft delete
+- Cross replication
+
+### MARS Agent
+- Azure recovery service agent
+- Installed on Windows VMs or on prem Windows machines
+- Helps to backup files,folders and system state
+- Saving the files and things to Vault (before chapter)
+
+### Azure site recovery
+- hybrid - on prem to cloud, backup solution
+- used for site-to-site recovery
+- ensure Business Continuity and Disaster Recovery
+- replicates a workload from primary site to secondary
+- in case of issius it can failover
+- Supports replication of VMs, any OS, on prem, wmvare, hyper-v, physical machines, between cloud providers
