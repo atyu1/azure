@@ -773,3 +773,32 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - replicates a workload from primary site to secondary
 - in case of issius it can failover
 - Supports replication of VMs, any OS, on prem, wmvare, hyper-v, physical machines, between cloud providers
+
+## Azure Container Instances
+- Allow to launch conatiners directly in Azure
+- Supports various sources as: Azure Container Registry, Docker Hub, Private Container Registry
+- Container groups are collections of containers running on same machine 
+- Groups are sharing: lifecycle, resources, local network, storage volumes
+- Multi container groups supports only linux containers
+- Deploy multi containers:
+ = Resources Manager Templates (ARM) - when used with additional resources
+ = YAML - only for container definitions
+
+- Container restart policies - define how the container restarts:
+ = Always - always running - good for web servers
+ = Never - run one time only
+ = OnFailure
+
+- Container Env Variables - allow to pass key/values to containers
+- Supports secret variables
+
+- Container Persistent Storage - keeps data even after container restart
+- Mounting Azure Files, Secret Volume, Empty Dir or Cloud git repo can help to save persistent data
+- Mounting require CLI or Powershell
+
+- CLI helpers for container:
+ = az container logs --resources-group <name> --name <name>
+ = az container attach --resource-group <name> --name <name> # to get startup diagnostic
+ = az container exec --resource-group <name> --name <name> --exec-command /bin/sh #get to interactive mode
+ = az monitor metrics list --resource <container id> --metric <metric name> --output <format , e.g.table> #Get metrics 
+
