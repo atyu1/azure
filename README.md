@@ -802,3 +802,22 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
  = az container exec --resource-group <name> --name <name> --exec-command /bin/sh #get to interactive mode
  = az monitor metrics list --resource <container id> --metric <metric name> --output <format , e.g.table> #Get metrics 
 
+### Azure Container Registry
+- Used to storage and manage custom container images
+- private Docker registry service (based on 2.0)
+- Supports to build pipelines or tasks to build container images
+- We can pull to various targets:
+ = Kubernetes
+ = DC/OS
+ = Docker Swarm
+ = AKS
+ = App Service
+ = Batch
+ = Azure Service Fabric
+
+- Can be used via CLI, Portal, Powershell SDK
+- ACR Tasks - help to automate the OS and framework patching for Docker containers
+ = Quick tasks - without need for local docker engine - used to push image to registry
+ = Triggered Automated Builds allow Source Code updates, base image update, timers on schedule
+ = Multi-Step tasks are supported too - can use variables
+
