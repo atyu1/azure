@@ -821,3 +821,21 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
  = Triggered Automated Builds allow Source Code updates, base image update, timers on schedule
  = Multi-Step tasks are supported too - can use variables
 
+## Azure Kubernetes Service
+- Fully managed Kubernetes
+- Azure manage Kubernetes Master, monitoring and maintanance
+- Customer only maintain and pay for agent nodes
+- Supports Azure AD integration to Kuberenetes
+- Windows server containers are supported
+- Advanced networking
+
+### Bridge to Kubernetes
+- Extension to Visual studio
+- Inlcude a local running service to AKS cluster
+- Side step to create docker and kubernetes config
+- Using proxy to connect directly to K8s cluster
+
+## Azure DNS
+- Azure just manage DNS, we cannot purchase domains
+- Alias - point directly to Azure resource instead of DNS name
+- Record set - group of records, suggested to use always
