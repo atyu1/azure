@@ -839,3 +839,83 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
 - Azure just manage DNS, we cannot purchase domains
 - Alias - point directly to Azure resource instead of DNS name
 - Record set - group of records, suggested to use always
+
+## Azure Virtual Networking (vNet)
+- logically isolates section of the Azure Network where resources are located
+- Services related to networking
+ = DNS
+ = vNet
+ = Network Security Groups
+ = ExpressRoute
+ = vWAN
+ = vNetwork Gateway
+ = vNICs
+
+### vNet Peering
+- 2 types of peering:
+ = Regional vNet Peering - peering from same region
+ = Global vNet Peering - peering across region
+
+### NICs
+- Software or HW interfaces between equipments
+- Adapter, NIC, Network adapter
+
+### Route Table
+- Default routes are hidden from modifications - not visible in Portal at all
+- Possible to add custom routes - user defined routes
+- Its possible to overwrite routes and then it will be used - like default to None - block public access
+
+### Address Spaces
+- Range of Available IP address for VMs/Resources withing vNet - CIDR range
+- Possible to add more spaces
+
+### Subnets 
+- Associated with Route table
+- split networks
+- Public or Private - don't not exists - based on Internet GW access its public or not
+- Network Security Groups - traffic filtering assocaited with subnet
+- Gateway Subnet - Used by Azure Virtual Network Gateway service - launch VMs in special subnets
+
+### Private Links
+- Allows to establish secure connections between Azure Resources
+- Private Link Endpoint = Allows on prem to connect to GW from where it has secure connection to Azure resources
+- Private Link Servce = VMs can leverage Private link to access resources securely
+
+### Azure Express Routes
+- private connection between Azure DC and Infra onPrem
+- connection is VPN, Point-to-Point Ethernet or virtual cross-connection - to partner edge
+- Parner Edge have connection to Microsoft Edge via primary connections - no internet access
+- Better, faster, more secure, consistent connection
+
+### Azure Firewall
+- Fully managed FW to protect vNets
+- statefull
+- Built in HA 
+- unrestricted cloud scalability
+- integrated to Azure Monitor for full monitoring
+- Can run in different vNet as VMs and use for traffic handling and security for internet or on prem
+
+### Azure Network Watcher
+- Features:
+ = IP flow verify checks
+ = Packet Capture
+ = Troubleshoot VPNs or NSGs
+ = NSG Flovlogs
+ = Diagnostics logs
+ = Traffic Analytics
+ = Network Performance Monitor
+
+- It can monitor and repair VMs, vNets, App Gateways or load balancers
+- Cannot monitor PaaS
+- By Default disabled
+- Can show a toplogy
+
+### Network Performance Monitor
+- Helps to monitor network performance in infra aso in ExpressRote
+- It needs Log Analytics Workspace
+- Notifies when threshlod is reached
+- Detects:
+ = traffic blackholling
+ = routing errors
+ = network issues
+ 
