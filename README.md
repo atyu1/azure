@@ -918,4 +918,42 @@ https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-m
  = traffic blackholling
  = routing errors
  = network issues
- 
+
+### Network Security Group
+- Filter network traffic from and to resources in vNet
+- Security group can be assigned to NIC or Subnet 
+- Composed of security rules
+- Per rule we define filtering parameters, ports, protocol, allow/deny, ....
+- 1 rule for same priority
+- Max 5000 NSGs per subsribtion
+- Max 1000 NSG Rules per NSG
+- !! Statefull - reply traffic is allowed by default
+- Default NSG exists:
+ = Outbound rules - allow inter vNet and Internet traffic - deny other
+ = Inbound rules - allow inter vNet and from Load balancer - deny other
+- Wen NSG is not assigned - all traffic is allowed
+
+### Azure Virtual WAN
+- Contains many networking, security and routing functions - via one interface
+- Its SDWAN
+- Functionalities include:
+ = Branch Connectivity - VPN, SDWAN, ...
+ = Site-to-Site VPN 
+ = Remote user VPN
+ = private connection - ExpressRoute
+ = intra-cloud connectivity
+ = VPN ExpressRoute inter-connectivity
+ = Routing
+ = Azure Firewall traffic encryption
+
+- Point of presence - where the site is connecting to internet
+
+### Azure Virtual Network Gateways
+- Used to VPN to Azure network 
+- It will deploy a special VM
+- During deploy we can select if its EpxressRoute GW or VPN GW
+- It supports: 
+ = Site-to-Site IPsec tunnel
+ = Multi-site-VPN to more remote sites from one box
+ = Point-to-site - remote PCs connection
+ = vNet-to-vNet - connect different regions
