@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "name": "my-test-vnet01",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-11-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "my-test-vnet01"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "Subnet-1",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24"
+                        }
+                    },
+                    {
+                        "name": "Subnet-2",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {}
+}
